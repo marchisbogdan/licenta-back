@@ -1,0 +1,115 @@
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+
+    repositories {
+       mavenCentral()
+       maven {
+       		url "http://ec2-52-208-86-58.eu-west-1.compute.amazonaws.com:8081/nexus/content/groups/public"
+       }
+    }
+    
+    ext {
+    	springVersion = '4.2.6.RELEASE'
+    	springSecurityVersion = '4.1.0.RELEASE'
+    	powermockVersion = '1.6.5'
+    	dropwizardVersion = '1.0.0-rc3'
+    	jacksonVersion = '2.7.5'
+    	slf4jVersion = '1.7.21'
+    	kafkaClientsVersion = '0.10.2.0'
+	}
+
+    dependencies {
+    	compile ('org.apache.httpcomponents:httpclient:4.5.2') {
+    		exclude group: 'commons-logging', module: 'commons-logging'
+    	}
+    	
+    	compile ('org.apache.kafka:kafka-clients:'+kafkaClientsVersion)
+    	
+   		compile (
+   			'io.fastjson:boon:0.33',
+   			'com.fasterxml.jackson.datatype:jackson-datatype-joda:' + jacksonVersion,
+   			'org.aspectj:aspectjweaver:1.8.9',
+   			'org.slf4j:slf4j-api:' + slf4jVersion
+        )
+        compile ('org.springframework:spring-context-support:' + springVersion) {
+    		exclude group: 'commons-logging', module: 'commons-logging'
+    		exclude group: 'org.springframework', module: 'spring-aop'
+    	}
+    	compile ('org.springframework:spring-webmvc:' + springVersion) {
+    		exclude group: 'commons-logging', module: 'commons-logging'
+    	}
+    	compile ('org.springframework:spring-aop:' + springVersion) {
+    		exclude group: 'aopalliance', module: 'aopalliance'
+    	}
+        
+        testCompile (
+        	'junit:junit:4.12',
+        	'org.powermock:powermock-api-mockito:' + powermockVersion,
+        	'org.powermock:powermock-module-junit4:' + powermockVersion,
+        	'commons-logging:commons-logging:1.2'
+        )
+        testCompile ('org.springframework:spring-test:' + springVersion) {
+  			exclude group: 'commons-logging', module: 'commons-logging'
+ 		}
+    }
+
+    version = '1.0'
+    
+    sourceCompatibility = 1.8
+	targetCompatibility = 1.8
+	
+	test {
+		exclude '**/*IntegrationTest*'
+	}
+	
+	task wrapper(type: Wrapper) {
+        gradleVersion = '2.14'
+    }
+}
+
+evaluationDependsOnChildren();
+
+
+task build {
+    dependsOn subprojects.findAll {
+        it.hasProperty('createAPIBuild')
+    }.createAPIBuild
+}
+
+task buildAWSBundle(type: Copy, dependsOn: build) {
+
+//    subproject jar files
+    subprojects.findAll {
+        it.hasProperty('createAPIBuild')
+    }.each {
+        apiProject ->
+            from("${apiProject.createAPIBuild.destinationDir}") {
+                into "${apiProject.name}"
+            }
+
+    }
+
+//    Procfile for app launching
+    from(projectDir) {
+        include('Procfile')
+    }
+//
+    from('nginx-conf') {
+        into ".ebextensions/nginx/conf.d/elasticbeanstalk/"
+        include '*.conf'
+    }
+
+    from file("scripts")
+
+    destinationDir file("build/bundle")
+}
+
+
+task buildZip(type: Zip, dependsOn: buildAWSBundle) {
+
+    from file("build/bundle")
+
+    destinationDir file("build/zip")
+    baseName = "${project.name}-v${project.version}-b${System.getenv().BUILD_NUMBER}"
+}

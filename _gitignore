@@ -1,0 +1,53 @@
+## Ignore file for all ConnectedCare projects
+## Project-specific settings go in a project-specific file
+
+# Eclipse/Maven project build results
+target/
+
+# Ignore pom created by maven-shade-plugin
+dependency-reduced-pom.xml
+/bin/
+*/bin/
+
+# generated files
+*/.logs/
+.logs/
+/build/
+*/build/
+/.settings/
+*/.settings/
+/zip/
+*/zip/
+bundle/
+
+#Gradle
+/.gradle/
+*/.gradle/
+build/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Eclipse project files
+*.project
+*.classpath
+*.settings
+*.directory
+.directory
+/work
+/test-output
+
+
+# Intellij project files
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Mac
+.DS_Store
+.AppleDouble
+.LSOverride

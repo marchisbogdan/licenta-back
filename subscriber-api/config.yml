@@ -1,0 +1,26 @@
+logging:
+  level: WARN
+
+  loggers:
+    "subscriberApiLog": WARN
+    "com.onnisoft.wahoo.subscriber.App": WARN
+
+  appenders:
+    - type: file
+      currentLogFilename: ../.logs/subscriber-api-errors.log
+      threshold: WARN
+      logFormat: "%d{yyyy-MM-dd hh:mm:ss,SSS} []%-5p %c - %m%n"
+      archive: true
+      archivedLogFilenamePattern: ../.logs/subscriber-api-errors-archive.%d.log.gz
+      archivedFileCount: 10
+    - type: console
+
+server:
+  applicationConnectors:
+    - type: http
+      port: 8094
+
+  adminConnectors:
+    - type: http
+      port: 8084
+

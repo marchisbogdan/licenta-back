@@ -1,0 +1,51 @@
+dependencies {
+	compile project(':repository')
+	
+	compile (
+   		'java-core:aop-validation:1.0',
+   		'java-core:api-utils:1.0',
+    )
+}
+
+jar {
+	manifest {
+		attributes (
+			'Implementation-Title': 'WAHOO Subscriber API',  
+			'Implementation-Version': version,
+			'Main-Class': 'com.onnisoft.wahoo.subscriber.App',
+			'Class-Path': configurations.compile.collect { 'lib/' + it.getName() }.join(' ')
+		)
+	}
+}
+
+task copyCompileLibs(type: Copy, dependsOn:build) {
+	into 'build/libs/lib'
+	from configurations.compile
+}
+
+/*task createBuild(type:Zip, dependsOn:copyCompileLibs) {
+	from projectDir
+	include ('README*', 'LICENSE*', 'NOTICE*', 'config*', '*.properties')
+	from ('build/libs') {
+		include ('*.jar', 'lib/*.jar')
+	}
+	from projectDir
+	from ('src/main/scripts') {
+		include 'startup.*'
+	}
+	destinationDir file('zip') // directory that you want your archive to be placed in
+	baseName = project.name + '-' + System.getenv().BUILD_NUMBER
+}*/
+
+task createAPIBuild(type:Copy, dependsOn:copyCompileLibs) {
+	from projectDir
+	include ('README*', 'LICENSE*', 'NOTICE*', 'config*', '*.properties')
+	from ('build/libs') {
+		include ('*.jar', 'lib/*.jar')
+	}
+	from projectDir
+	from ('src/main/scripts') {
+		include 'startup.*'
+	}
+	destinationDir file('bundle') // directory that you want your archive to be placed in
+}

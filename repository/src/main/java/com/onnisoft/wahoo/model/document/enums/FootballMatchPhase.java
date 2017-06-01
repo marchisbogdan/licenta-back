@@ -1,0 +1,5 @@
+package com.onnisoft.wahoo.model.document.enums;
+
+public enum FootballMatchPhase {
+	SCHEDULED, PREMATCH, FIRST_HALF, HALF_TIME, SECOND_HALF, FULL_TIME, FIRST_EXTRA_HALF, EXTRA_HALF_TIME, SECOND_HALF_TIME, EXTRA_FULL_TIME, PENALTY_SHOOTOUT, COMPLETED;
+}

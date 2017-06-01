@@ -1,0 +1,4 @@
+2017-04-24 09:18:12 []WARN  org.springframework.data.mongodb.core.convert.CustomConversions - Registering converter from class java.lang.Number to class java.lang.Number as writing converter although it doesn't convert to a Mongo supported type! You might wanna check you annotation setup at the converter implementation.
+2017-04-24 09:18:58 []WARN  com.onnisoft.wahoo.model.dao.AbstractDao - No document was found in the retrieve process.null
+2017-04-24 09:47:58 []WARN  com.onnisoft.wahoo.model.dao.AbstractDao - No document was found in the retrieve process.null
+2017-04-24 10:07:19 []WARN  com.onnisoft.wahoo.model.dao.AbstractDao - No document was found in the retrieve process.null

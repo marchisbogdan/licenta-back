@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd">
+
+	<tx:annotation-driven />
+
+	<bean id="defaultProps"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<array>
+				<value>classpath*:*-config.properties</value>
+			</array>
+		</property>
+	</bean>
+
+	<context:property-placeholder location="file:spring-config.properties"
+		properties-ref="defaultProps" />
+		
+	<context:property-placeholder location="file:kafka-config.properties"
+		properties-ref="defaultProps"/>
+
+	<import resource="classpath:api-utils-context.xml" />
+	<import resource="classpath:repository-context.xml" />
+	
+	<task:annotation-driven executor="jmsExecutor"/>
+	<task:executor id="jmsExecutor" pool-size="10" queue-capacity="20" rejection-policy="CALLER_RUNS"/>
+
+	<context:component-scan
+		base-package="com.onnisoft.wahoo.api,com.onnisoft.validation" />
+
+	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate" />
+	
+	<!-- Enable AspectJ style of Spring AOP -->
+	<aop:aspectj-autoproxy />
+	<bean id="validationAspect" class="com.onnisoft.validation.ValidationAspect">
+		<property name="validators">
+			<map>
+				<entry key="com.onnisoft.validation.CompetitorCreationValidator"
+					value-ref="competitorCreationValidator" />
+				<entry key="com.onnisoft.validation.CompetitionCreationValidator"
+					value-ref="competitionCreationValidator" />
+				<entry key="com.onnisoft.validation.GroupCreationValidator"
+					value-ref="groupCreationValidator" />
+				<entry key="com.onnisoft.validation.RoundsSelectionValidator"
+					value-ref="roundsSelectionValidator" />
+				<entry key="com.onnisoft.validation.EventsSelectionValidator"
+					value-ref="eventsSelectionValidator" />
+				<entry key="com.onnisoft.validation.MarketAssignationValidator"
+					value-ref="marketAssignationValidator"/>
+				<entry key="com.onnisoft.validation.PrizeSettingValidator"
+					value-ref="prizeSettingValidator"/>
+				<entry key="com.onnisoft.validation.StatisticsFilterValidator"
+					value-ref="statisticsFilterValidator"/>
+				<entry key="com.onnisoft.validation.AdminSubscriberValidator"
+					value-ref="adminSubscriberValidator"/>
+				<entry key="com.onnisoft.validation.TeamFormationValidator"
+					value-ref="teamFormationValidator"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="mappingJsonFactory" class="com.fasterxml.jackson.databind.MappingJsonFactory">
+	</bean>
+</beans>
