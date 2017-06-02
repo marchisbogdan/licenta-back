@@ -1,6 +1,19 @@
 dependencies {
+
+	ext {
+    	hibernateVersion = '4.3.6.Final'
+   		javassistVersion = '3.18.2-GA'
+   		mysqlVersion = '5.1.42'
+   		tomcatDbcpVersion = '7.0.55'
+	}
 	compile (
 		'org.mongodb:mongo-java-driver:3.2.2',
 		'org.springframework.data:spring-data-mongodb:1.9.1.RELEASE'
 	)
+	// hibernate configuration
+    	compile (
+    		'org.hibernate:hibernate-core:'+hibernateVersion,
+    		'org.javassist:javassist:'+javassistVersion,
+    		'mysql:mysql-connector-java:'+mysqlVersion,
+    		'org.apache.tomcat:tomcat-dbcp:'+tomcatDbcpVersion)
 }

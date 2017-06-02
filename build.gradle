@@ -17,6 +17,10 @@ subprojects {
     	jacksonVersion = '2.7.5'
     	slf4jVersion = '1.7.21'
     	kafkaClientsVersion = '0.10.2.0'
+    	hibernateVersion = '4.3.6.Final'
+   		javassistVersion = '3.18.2-GA'
+   		mysqlVersion = '5.1.42'
+   		tomcatDbcpVersion = '7.0.55'
 	}
 
     dependencies {
@@ -42,7 +46,16 @@ subprojects {
     	compile ('org.springframework:spring-aop:' + springVersion) {
     		exclude group: 'aopalliance', module: 'aopalliance'
     	}
-        
+    	compile ('org.springframework:spring-orm:' +springVersion){
+    		exclude group: 'aopalliance', module: 'aopalliance'
+    	}
+    	// hibernate configuration
+    	compile (
+    		'org.hibernate:hibernate-core:'+hibernateVersion,
+    		'org.javassist:javassist:'+javassistVersion,
+    		'mysql:mysql-connector-java:'+mysqlVersion,
+    		'org.apache.tomcat:tomcat-dbcp:'+tomcatDbcpVersion)
+    		
         testCompile (
         	'junit:junit:4.12',
         	'org.powermock:powermock-api-mockito:' + powermockVersion,
