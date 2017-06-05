@@ -49,6 +49,12 @@ public class CommentDAO extends AbstractDao<Comment> {
 		if(t.getSubscriber() != null){
 			query.addCriteria(Criteria.where("subscriber").is(t.getSubscriber()));
 		}
+		if(t.getContent() != null){
+			query.addCriteria(Criteria.where("content").is(t.getContent()));
+		}
+		if(t.getCreationDate() != null){
+			query.addCriteria(Criteria.where("creationDate").is(t.getCreationDate()));
+		}
 		return query;
 	}
 

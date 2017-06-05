@@ -2,6 +2,7 @@ package com.onnisoft.wahoo.model.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,13 @@ public abstract class AbstractDaoHibernate<T> implements DaoHibernate<T> {
 	   public T findOne( long id ){
 	      return (T) getCurrentSession().get( clazz, id );
 	   }
+	   
+	   @SuppressWarnings("unchecked")
+	   public List<T> findByProps(T entity){
+		   Criteria cr =getSearchQuery(entity);
+		   return cr.list();
+	   }
+	   
 	   @SuppressWarnings("unchecked")
 	   public List< T > findAll(){
 	      return getCurrentSession().createQuery( "from " + clazz.getName() ).list();
@@ -45,4 +53,6 @@ public abstract class AbstractDaoHibernate<T> implements DaoHibernate<T> {
 	   protected final Session getCurrentSession() {
 	      return sessionFactory.getCurrentSession();
 	   }
+	   
+	   protected abstract Criteria getSearchQuery(T t);
 }

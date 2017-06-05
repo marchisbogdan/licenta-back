@@ -23,13 +23,13 @@ public class Bid implements Serializable {
 	public Bid() {
 	}
 
-	public Bid(long id, String idSubscriber, String idProduct, long bidValue, Date date) {
+	private Bid(Builder builder) {
 		super();
-		this.id = id;
-		this.idSubscriber = idSubscriber;
-		this.idProduct = idProduct;
-		this.bidValue = bidValue;
-		this.date = date;
+		this.id = builder.id;
+		this.idSubscriber = builder.idSubscriber;
+		this.idProduct = builder.idProduct;
+		this.bidValue = builder.bidValue;
+		this.date = builder.date;
 	}
 
 	public long getId() {
@@ -93,5 +93,37 @@ public class Bid implements Serializable {
 		} else if (!idSubscriber.equals(other.idSubscriber))
 			return false;
 		return true;
+	}
+	
+	public static final class Builder{
+		private long id;
+		private String idSubscriber;
+		private String idProduct;
+		private long bidValue;
+		private Date date;
+		
+		public Builder id(long id){
+			this.id = id;
+			return this;
+		}
+		public Builder idSubscriber(String idSubscriber){
+			this.idSubscriber = idSubscriber;
+			return this;
+		}
+		public Builder idProduct(String idProduct){
+			this.idProduct = idProduct;
+			return this;
+		}
+		public Builder bidValue(long bidValue){
+			this.bidValue = bidValue;
+			return this;
+		}
+		public Builder date(Date date){
+			this.date = date;
+			return this;
+		}
+		public Bid build(){
+			return new Bid(this);
+		}
 	}
 }

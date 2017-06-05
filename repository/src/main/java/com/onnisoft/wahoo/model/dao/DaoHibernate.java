@@ -5,6 +5,8 @@ import java.util.List;
 public interface DaoHibernate<T> {
 	 T findOne(final long id);
 	 
+	 List<T> findByProps(final T entity);
+	 
 	 List<T> findAll();
 	 
 	 void create(final T entity);
