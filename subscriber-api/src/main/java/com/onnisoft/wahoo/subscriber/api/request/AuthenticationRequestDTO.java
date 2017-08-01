@@ -2,14 +2,6 @@ package com.onnisoft.wahoo.subscriber.api.request;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 
- * Authentication Request.
- *
- * @author   mbozesan
- * @date     13 Sep 2016 - 15:18:11
- *
- */
 public class AuthenticationRequestDTO {
 	
 	@NotNull

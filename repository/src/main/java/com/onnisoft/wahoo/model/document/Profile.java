@@ -8,17 +8,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import com.onnisoft.wahoo.model.document.enums.GenderEnum;
 import com.onnisoft.wahoo.model.document.enums.LanguageEnum;
 
-/**
- * 
- * Entity that keeps informations about the profiles. For the current case, a
- * profile contains information additional to the information provided on
- * registration. This information is not mandatory, but might be required for
- * real money prized competitions.
- *
- * @author mbozesan
- * @date 22 Sep 2016 - 11:42:23
- *
- */
+
 @Document(collection = "profiles")
 public class Profile extends Node implements Serializable {
 

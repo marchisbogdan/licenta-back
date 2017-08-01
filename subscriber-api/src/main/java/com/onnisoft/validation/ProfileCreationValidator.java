@@ -10,13 +10,6 @@ import org.springframework.stereotype.Component;
 import com.onnisoft.validation.exception.ValidationException;
 import com.onnisoft.wahoo.subscriber.api.request.ProfileCreationRequestDTO;
 
-/**
- * Validates the profile creation request by checking for inconsistent and wrong
- * input data.
- *
- * @author mbozesan
- * @date 3 Oct 2016 - 13:35:56
- */
 @Component
 public class ProfileCreationValidator implements Validator<ProfileCreationRequestDTO> {
 

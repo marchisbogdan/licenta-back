@@ -30,8 +30,6 @@ import com.onnisoft.wahoo.api.utils.ApiDateTimeUtils;
 import com.onnisoft.wahoo.model.dao.Dao;
 import com.onnisoft.wahoo.model.dao.SubscriberCustomDao;
 import com.onnisoft.wahoo.model.document.Subscriber;
-import com.onnisoft.wahoo.model.document.VirtualCompetition;
-import com.onnisoft.wahoo.model.document.VirtualCompetitor;
 import com.onnisoft.wahoo.model.document.enums.SubscriberRoleEnum;
 
 import io.swagger.annotations.Api;
@@ -46,12 +44,6 @@ public class SubscriberApi extends AbstractApi {
 
 	@Autowired
 	private SubscriberCustomDao subscriberCustomDao;
-
-	@Autowired
-	private Dao<VirtualCompetition> virtualCompetitionDao;
-
-	@Autowired
-	private Dao<VirtualCompetitor> virtualCompetitorDao;
 
 	@Autowired
 	private ApiValidationUtil validator;
@@ -151,45 +143,5 @@ public class SubscriberApi extends AbstractApi {
 
 		return GenericResponseDTO.createSuccess(list);
 
-	}
-
-	@GET
-	@Path("/virtual-competition/id/{virtualCompetitionId}")
-	@Timed
-	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiImplicitParams({ @ApiImplicitParam(name = HEADER_SECURITY_TOKEN, value = "Json Web Token", dataType = "string", paramType = "header", required = false),
-			@ApiImplicitParam(name = HEADER_SECURITY_TRUSTED_USERNAME, value = "Trusted username", dataType = "string", paramType = "header", required = false),
-			@ApiImplicitParam(name = HEADER_SECURITY_TRUSTED_SECRET, value = "Trusted secret", dataType = "string", paramType = "header", required = false) })
-	public GenericResponseDTO<List<Subscriber>> getSubscribersInVirtualCompetition(@Context HttpServletRequest servletRequest,
-			@PathParam("virtualCompetitionId") String virtualCompetitionId) {
-
-		Subscriber subscriber = this.retrieveUserFromToken(servletRequest);
-
-		if (subscriber == null) {
-			logger.warn("The subscriber couldn't be retrieved!");
-			return GenericResponseDTO.createFailed("The subscriber couldn't be retrieved!");
-		}
-
-		if (StringUtils.isEmpty(virtualCompetitionId)) {
-			logger.warn("The virtualCompetitionId is empty!");
-			return GenericResponseDTO.createFailed("The virtualCompetitionId is empty!");
-		}
-
-		VirtualCompetition virtualCompetition = this.virtualCompetitionDao.retrieveById(virtualCompetitionId);
-
-		if (virtualCompetition == null) {
-			logger.warn("Invalid virtualCompetitionId!");
-			return GenericResponseDTO.createFailed("Invalid virtualCompetitionId!");
-		}
-
-		List<Subscriber> result = this.virtualCompetitorDao.retrieveList(new VirtualCompetitor.Builder().virtualCompetition(virtualCompetition).build())
-				.stream().map(vc -> vc.getSubscriber()).distinct().collect(Collectors.toList());
-
-		if (CollectionUtils.isEmpty(result)) {
-			logger.warn("There are no subscribers in the virtual competition!");
-			return GenericResponseDTO.createFailed("There are no subscribers in the virtual competition!");
-		}
-
-		return GenericResponseDTO.createSuccess(result);
 	}
 }

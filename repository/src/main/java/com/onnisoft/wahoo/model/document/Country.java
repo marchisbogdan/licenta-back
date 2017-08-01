@@ -7,14 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * 
- * Entity that keeps information about countries.
- *
- * @author mbozesan
- * @date 23 Sep 2016 - 16:54:32
- *
- */
 @Document(collection = "countries")
 public class Country extends Node implements Serializable {
 

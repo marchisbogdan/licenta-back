@@ -7,9 +7,6 @@ import javax.validation.constraints.NotNull;
 
 import com.onnisoft.wahoo.model.document.enums.SubscriberRoleEnum;
 
-/**
- * @author alexandru.mos
- */
 public class RegistrationRequestDTO implements Serializable {
 
 	private static final long serialVersionUID = 4671207444490969311L;

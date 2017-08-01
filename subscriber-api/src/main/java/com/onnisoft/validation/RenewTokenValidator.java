@@ -9,14 +9,6 @@ import org.springframework.util.StringUtils;
 import com.onnisoft.validation.exception.ValidationException;
 import com.onnisoft.wahoo.subscriber.api.request.RenewTokenRequestDTO;
 
-/**
- * Validates the renew token request by checking for inconsistent and wrong
- * input data.
- *
- * @author alexandru.mos
- * @date Mar 6, 2016 - 7:22:05 PM
- *
- */
 @Component
 public class RenewTokenValidator implements Validator<RenewTokenRequestDTO> {
 

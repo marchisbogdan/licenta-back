@@ -8,15 +8,7 @@ import org.springframework.stereotype.Component;
 import com.onnisoft.validation.exception.ValidationException;
 import com.onnisoft.wahoo.subscriber.api.request.PasswordChangeRequestDTO;
 
-/**
- * 
- * Validates the password change request by checking for inconsistent and wrong
- * input data.
- *
- * @author mbozesan
- * @date 21 Oct 2016 - 10:56:16
- *
- */
+
 @Component
 public class PasswordChangeValidator implements Validator<PasswordChangeRequestDTO> {
 

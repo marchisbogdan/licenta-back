@@ -8,14 +8,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.onnisoft.wahoo.model.document.enums.DeviceTypeEnum;
 
-/**
- * Entity that keeps information about the supported devices of a particular
- * user.
- *
- * @author alexandru.mos
- * @date Jun 14, 2016 - 2:56:06 PM
- *
- */
 @Document(collection = "subscriber-devices")
 public final class SubscriberDevice implements Serializable {
 

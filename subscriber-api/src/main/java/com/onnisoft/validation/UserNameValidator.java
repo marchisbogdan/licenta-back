@@ -9,13 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.onnisoft.validation.exception.ValidationException;
 
-/**
- * User name validator.
- *
- * @author alexandru.mos
- * @date Apr 11, 2016 - 3:17:29 PM
- *
- */
 @Component
 public class UserNameValidator implements Validator<String> {
 

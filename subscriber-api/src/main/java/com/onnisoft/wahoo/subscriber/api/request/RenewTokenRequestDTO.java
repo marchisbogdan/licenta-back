@@ -2,14 +2,6 @@ package com.onnisoft.wahoo.subscriber.api.request;
 
 import javax.validation.constraints.NotNull;
 
-/**
- * 
- * Renew token request.
- *
- * @author mbozesan
- * @date Mar 2, 2016 - 6:17:30 PM
- *
- */
 public final class RenewTokenRequestDTO {
 
 	@NotNull

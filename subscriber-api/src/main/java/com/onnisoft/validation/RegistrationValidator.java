@@ -11,15 +11,6 @@ import com.onnisoft.wahoo.model.document.Subscriber;
 import com.onnisoft.wahoo.subscriber.api.request.AuthenticationRequestDTO;
 import com.onnisoft.wahoo.subscriber.api.request.RegistrationRequestDTO;
 
-/**
- * 
- * Validates the registration request by checking for inconsistent and wrong
- * input data.
- *
- * @author mbozesan
- * @date 3 Oct 2016 - 13:34:59
- *
- */
 @Component
 public class RegistrationValidator implements Validator<RegistrationRequestDTO> {
 

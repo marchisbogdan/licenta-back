@@ -4,22 +4,16 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,21 +32,12 @@ import com.onnisoft.validation.SubscriberApiValidationUtil;
 import com.onnisoft.validation.exception.ValidationException;
 import com.onnisoft.wahoo.model.dao.Dao;
 import com.onnisoft.wahoo.model.document.Country;
-import com.onnisoft.wahoo.model.document.Favorite;
-import com.onnisoft.wahoo.model.document.Friend;
-import com.onnisoft.wahoo.model.document.Player;
 import com.onnisoft.wahoo.model.document.Profile;
-import com.onnisoft.wahoo.model.document.RealCompetition;
-import com.onnisoft.wahoo.model.document.RealCompetitor;
-import com.onnisoft.wahoo.model.document.Sport;
 import com.onnisoft.wahoo.model.document.Subscriber;
 import com.onnisoft.wahoo.model.document.SubscriberDevice;
 import com.onnisoft.wahoo.model.document.enums.DeviceTypeEnum;
-import com.onnisoft.wahoo.model.document.enums.LanguageEnum;
 import com.onnisoft.wahoo.model.document.enums.SubscriberRoleEnum;
 import com.onnisoft.wahoo.model.document.enums.SubscriberStatusEnum;
-import com.onnisoft.wahoo.subscriber.api.request.AddFriendRequestDTO;
-import com.onnisoft.wahoo.subscriber.api.request.AddToFavoriteRequestDTO;
 import com.onnisoft.wahoo.subscriber.api.request.AuthenticationRequestDTO;
 import com.onnisoft.wahoo.subscriber.api.request.PasswordChangeRequestDTO;
 import com.onnisoft.wahoo.subscriber.api.request.ProfileCreationRequestDTO;
@@ -67,12 +52,6 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 
-/**
- * Subscriber api methods.
- *
- * @author mbozesan
- * @date 13 Sep 2016 - 17:23:01
- */
 @Service
 @Path("/subscriber")
 @Produces(MediaType.APPLICATION_JSON)
@@ -95,24 +74,6 @@ public class SubscriberApi {
 
 	@Autowired
 	private Dao<Profile> profileDao;
-
-	@Autowired
-	private Dao<Friend> friendDao;
-
-	@Autowired
-	private Dao<Player> playerDao;
-
-	@Autowired
-	private Dao<RealCompetitor> realCompetitorDao;
-
-	@Autowired
-	private Dao<RealCompetition> realCompetitionDao;
-
-	@Autowired
-	private Dao<Sport> sportDao;
-
-	@Autowired
-	private Dao<Favorite> favoriteDao;
 
 	@Autowired
 	private JsonWebToken jwt;
@@ -550,64 +511,7 @@ public class SubscriberApi {
 		return updated ? GenericResponseDTO.createSuccess(this.subscriberDao.retrieve(changeRequest))
 				: GenericResponseDTO.createFailed("Could not change the password");
 	}
-
-	@POST
-	@Path("addFriend")
-	@Timed
-	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = HEADER_SECURITY_TOKEN, value = "Json Web Token", dataType = "string", paramType = "header", required = true) })
-	public GenericResponseDTO<Friend> addFriend(AddFriendRequestDTO request, @Context HttpServletRequest headers) {
-		Subscriber subscriber = this.retrieveUserFromToken(headers);
-		Friend friend = new Friend(null, subscriber, request.getFriend());
-		friend = friendDao.create(friend);
-		return GenericResponseDTO.createSuccess(this.friendDao.retrieve(friend));
-	}
-
-	@POST
-	@Path("addToFavorite")
-	@Timed
-	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = HEADER_SECURITY_TOKEN, value = "Json Web Token", dataType = "string", paramType = "header", required = true) })
-	public GenericResponseDTO<Favorite> addToFavorite(AddToFavoriteRequestDTO request, @Context HttpServletRequest headers) {
-		try {
-			this.validator.validateFavoriteRequest(request);
-		} catch (ValidationException e) {
-			logger.warn("Validation exception", e);
-			return GenericResponseDTO.createFailed(e.getMessage());
-		}
-
-		Subscriber subscriber = this.retrieveUserFromToken(headers);
-
-		Sport sport = sportDao.retrieveById(request.getFavoriteSportId());
-		RealCompetitor competitor = realCompetitorDao.retrieveById(request.getFavoriteRealCompetitorId());
-		RealCompetition competition = realCompetitionDao.retrieveById(request.getFavoriteRealCompetitionId());
-		Player player = playerDao.retrieveById(request.getFavoritePlayerId());
-
-		Favorite favorite = new Favorite(null, subscriber, sport, competition, competitor, player);
-		favorite = favoriteDao.create(favorite);
-
-		return GenericResponseDTO.createSuccess(this.favoriteDao.retrieve(favorite));
-	}
-
-	@GET
-	@Path("languages")
-	@Timed
-	@Consumes(MediaType.APPLICATION_JSON)
-	public GenericResponseDTO<Map<LanguageEnum, String>> getLanguages(@Context HttpHeaders headers) {
-		List<LanguageEnum> langs = Arrays.asList(LanguageEnum.values());
-		Map<LanguageEnum, String> languages = new HashMap<>();
-		for (LanguageEnum l : langs) {
-			languages.put(l,
-					(l.name().replace(l.name().substring(1, l.name().length()), l.name().substring(1, l.name().length()).toLowerCase().replace("_", " "))));
-		}
-		if (langs.isEmpty()) {
-			return GenericResponseDTO.createFailed("There are no languages to be displayed");
-		}
-		return GenericResponseDTO.createSuccess(languages);
-	}
-
+	
 	/**
 	 * Determine device type from user agent.
 	 *

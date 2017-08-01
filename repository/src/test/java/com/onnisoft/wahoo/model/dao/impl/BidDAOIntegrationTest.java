@@ -33,7 +33,7 @@ public class BidDAOIntegrationTest {
 	
 	@Before
 	public void setup(){
-		bid1 = new Bid(id, idSubscriber, idProduct, bidValue, date);
+		bid1 = new Bid.Builder().idSubscriber(idSubscriber).idProduct(idProduct).bidValue(bidValue).date(date).build();
 	}
 	
 	@After

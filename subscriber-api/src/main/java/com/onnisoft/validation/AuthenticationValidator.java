@@ -9,15 +9,6 @@ import org.springframework.stereotype.Component;
 import com.onnisoft.validation.exception.ValidationException;
 import com.onnisoft.wahoo.subscriber.api.request.AuthenticationRequestDTO;
 
-/**
- * 
- * Validates the authentication request by checking for inconsistent and wrong
- * input data.
- *
- * @author mbozesan
- * @date 21 Oct 2016 - 10:54:40
- *
- */
 
 @Component
 public class AuthenticationValidator implements Validator<AuthenticationRequestDTO> {

@@ -10,13 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onnisoft.wahoo.model.document.enums.SubscriberRoleEnum;
 import com.onnisoft.wahoo.model.document.enums.SubscriberStatusEnum;
 
-/**
- * Entity that keeps informations about the subscribers.
- *
- * @author mbozesan
- * @date Jun 13, 2016 - 5:49:48 PM
- *
- */
 @Document(collection = "subscribers")
 public final class Subscriber extends Node implements Serializable {
 
