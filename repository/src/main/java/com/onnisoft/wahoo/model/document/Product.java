@@ -132,7 +132,6 @@ public class Product extends Node {
 		private String description;
 		private String imageURL;
 		private Date bidEndDate;
-		@DBRef
 		private List<Comment> comments;
 		private long startingPrice;
 		private long highestPrice;

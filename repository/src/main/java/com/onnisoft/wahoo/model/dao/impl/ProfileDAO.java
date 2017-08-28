@@ -11,14 +11,6 @@ import org.springframework.util.StringUtils;
 import com.onnisoft.wahoo.model.dao.AbstractDao;
 import com.onnisoft.wahoo.model.document.Profile;
 
-/**
- * 
- * Implements CRUD operations on Profile document.
- *
- * @author mbozesan
- * @date 20 Oct 2016 - 14:54:23
- *
- */
 @Repository
 public class ProfileDAO extends AbstractDao<Profile> {
 

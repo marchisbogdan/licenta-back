@@ -7,6 +7,7 @@
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
     http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.8.xsd">
 
+	<context:annotation-config/>
 	<context:component-scan base-package="com.onnisoft.wahoo.model" />
 	
 	<!--<context:property-placeholder location="classpath:/mongo.properties"/> -->
@@ -36,18 +37,18 @@
       <property name="packagesToScan" value="com.onnisoft.wahoo.model" />
       <property name="hibernateProperties">
          <props>
-            <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
-            <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+            <prop key="hibernate.hbm2ddl.auto">create</prop>
+            <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
          </props>
       </property>
    </bean>
  
    <bean id="dataSource"
     class="org.apache.tomcat.dbcp.dbcp.BasicDataSource">
-      <property name="driverClassName" value="${jdbc.driverClassName}" />
-      <property name="url" value="${jdbc.url}" />
-      <property name="username" value="${jdbc.user}" />
-      <!--<property name="password" value="${jdbc.pass}" /> -->
+      <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+      <property name="url" value="jdbc:mysql://localhost:3306/spring_hibernate_dev?createDatabaseIfNotExist=true" />
+      <property name="username" value="root" />
+      <property name="password" value="" />
    </bean>
  
    <bean id="transactionManager"

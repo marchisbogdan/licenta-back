@@ -9,19 +9,13 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.onnisoft.wahoo.model.dao.AbstractDao;
 import com.onnisoft.wahoo.model.dao.Dao;
-import com.onnisoft.wahoo.model.dao.SubscriberCustomDao;
 import com.onnisoft.wahoo.model.document.Subscriber;
 import com.onnisoft.wahoo.model.document.SubscriberDevice;
 
-/**
- * Implements CRUD operations for Subscriber document
- *
- * @author mbozesan
- * @date 15 Sep 2016 - 12:09:43
- */
 @Repository
-public class SubscriberDAO extends SubscriberCustomDao {
+public class SubscriberDAO extends AbstractDao<Subscriber> {
 
 	@Autowired
 	private Dao<SubscriberDevice> subscriberDeviceDao;

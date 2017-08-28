@@ -5,13 +5,6 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 
-/**
- * Defines DAO operations.
- *
- * @author alexandru.mos
- * @date Jun 9, 2016 - 5:03:32 PM
- *
- */
 public interface Dao<T> {
 
 	/**

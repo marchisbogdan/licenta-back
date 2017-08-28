@@ -5,31 +5,22 @@ import static org.junit.Assert.assertTrue;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.onnisoft.wahoo.model.dao.Dao;
-import com.onnisoft.wahoo.model.dao.SubscriberCustomDao;
 import com.onnisoft.wahoo.model.document.Country;
 import com.onnisoft.wahoo.model.document.Subscriber;
 import com.onnisoft.wahoo.model.document.enums.SubscriberRoleEnum;
 import com.onnisoft.wahoo.model.document.enums.SubscriberStatusEnum;
 
-/**
- * Subscriber integration test.
- *
- * @author alexandru.mos
- * @date Jun 9, 2016 - 5:47:29 PM
- *
- */
 // @Transactional
 @ContextConfiguration(locations = { "classpath:wahoo-data-test.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -48,13 +39,12 @@ public class SubscriberDAOIntegrationTest {
 	private Country country;
 
 	@Autowired
+	@Qualifier("subscriberDAO")
 	private Dao<Subscriber> subscriberDao;
 
 	@Autowired
+	@Qualifier("countryDAO")
 	private Dao<Country> countryDao;
-
-	@Autowired
-	private SubscriberCustomDao subscriberCustomDao;
 
 	/**
 	 * @throws java.lang.Exception
@@ -94,45 +84,6 @@ public class SubscriberDAOIntegrationTest {
 		assertTrue(subscriber.getEmail().equals(EMAIL));
 		assertTrue(subscriber.getTokenExpirationDate().after(now));
 	}
-
-	@Test
-	public void testSearchUserSubscribersByRegExp() {
-		List<Subscriber> subscribers = null;
-
-		subscribers = this.subscriberCustomDao.searchUserSubscribersByRegExp(EMAIL);
-		assertNotNull(subscribers);
-		assertTrue(subscribers.get(0).getEmail().equals(EMAIL));
-
-		subscribers = this.subscriberCustomDao.searchUserSubscribersByRegExp(FNAME);
-		assertNotNull(subscribers);
-		assertTrue(subscribers.get(0).getFirstName().equals(FNAME));
-
-		subscribers = this.subscriberCustomDao.searchUserSubscribersByRegExp(LNAME);
-		assertNotNull(subscribers);
-		assertTrue(subscribers.get(0).getLastName().equals(LNAME));
-
-		subscribers = this.subscriberCustomDao.searchUserSubscribersByRegExp(UNAME);
-		assertNotNull(subscribers);
-		assertTrue(subscribers.get(0).getUserName().equals(UNAME));
-
-	}
-
-	@Test
-	public void testGetOnlineUsers() {
-		List<Subscriber> subscribersOnline = null;
-
-		subscribersOnline = this.subscriberCustomDao.getOnlineSubscribers(this.country.getId(), null);
-
-		assertNotNull(subscribersOnline);
-		assertTrue(!subscribersOnline.isEmpty());
-
-		Optional<Subscriber> testSubscriber = subscribersOnline.stream().filter(e -> e.getEmail().equals(EMAIL)).findFirst();
-		if (testSubscriber.isPresent()) {
-			assertTrue(testSubscriber.get().getEmail().equals(EMAIL));
-			assertTrue(testSubscriber.get().getCountry().equals(COUNTRY));
-		}
-	}
-
 	/**
 	 * Test method for
 	 * {@link com.onnisoft.ssp.model.dao.AbstractDao#retrieve(java.lang.Object)}

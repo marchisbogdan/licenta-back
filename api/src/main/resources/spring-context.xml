@@ -42,26 +42,10 @@
 	<bean id="validationAspect" class="com.onnisoft.validation.ValidationAspect">
 		<property name="validators">
 			<map>
-				<entry key="com.onnisoft.validation.CompetitorCreationValidator"
-					value-ref="competitorCreationValidator" />
-				<entry key="com.onnisoft.validation.CompetitionCreationValidator"
-					value-ref="competitionCreationValidator" />
-				<entry key="com.onnisoft.validation.GroupCreationValidator"
-					value-ref="groupCreationValidator" />
-				<entry key="com.onnisoft.validation.RoundsSelectionValidator"
-					value-ref="roundsSelectionValidator" />
-				<entry key="com.onnisoft.validation.EventsSelectionValidator"
-					value-ref="eventsSelectionValidator" />
-				<entry key="com.onnisoft.validation.MarketAssignationValidator"
-					value-ref="marketAssignationValidator"/>
-				<entry key="com.onnisoft.validation.PrizeSettingValidator"
-					value-ref="prizeSettingValidator"/>
 				<entry key="com.onnisoft.validation.StatisticsFilterValidator"
 					value-ref="statisticsFilterValidator"/>
 				<entry key="com.onnisoft.validation.AdminSubscriberValidator"
 					value-ref="adminSubscriberValidator"/>
-				<entry key="com.onnisoft.validation.TeamFormationValidator"
-					value-ref="teamFormationValidator"/>
 			</map>
 		</property>
 	</bean>

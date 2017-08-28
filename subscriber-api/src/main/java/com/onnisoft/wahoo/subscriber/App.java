@@ -12,12 +12,6 @@ import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
-/**
- * ! Dropwizard startup class.
- *
- * @author mbozesan
- * @date 12 Sep 2016 - 15:24:58
- */
 public class App extends Application<ApplicationConfiguration> {
 
 	private static final Logger logger = LoggerFactory.getLogger("subscriberApiLog");

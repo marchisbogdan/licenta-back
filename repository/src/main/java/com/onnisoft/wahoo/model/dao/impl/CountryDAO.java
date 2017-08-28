@@ -11,14 +11,6 @@ import org.springframework.util.StringUtils;
 import com.onnisoft.wahoo.model.dao.AbstractDao;
 import com.onnisoft.wahoo.model.document.Country;
 
-/**
- * 
- * Implements CRUD operations on Country document.
- *
- * @author mbozesan
- * @date 20 Oct 2016 - 14:16:31
- *
- */
 @Repository
 public class CountryDAO extends AbstractDao<Country> {
 

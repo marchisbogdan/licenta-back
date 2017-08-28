@@ -82,7 +82,7 @@ public class ProductDAO extends AbstractDao<Product> {
 			update.set("bidEndDate", t.getBidEndDate());
 		}
 		if(!CollectionUtils.isEmpty(t.getComments())){
-			update.addToSet("comments", t.getComments());
+			update.addToSet("comments", t.getComments().get(0));
 		}
 		if(t.getStartingPrice() != 0){
 			update.set("startingPrice",t.getStartingPrice());

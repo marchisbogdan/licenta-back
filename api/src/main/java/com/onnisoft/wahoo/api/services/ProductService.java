@@ -35,8 +35,9 @@ public class ProductService extends AbstractService<Product> {
 	public void createBidTransaction(BidCreationRequestDTO bidDTO, Subscriber subscriber) throws Exception {
 		Session session = null;
 		Transaction transaction = null;
+		SessionFactory sesFactory = bidDao.getSessionFactory();
+		session = sesFactory.openSession();
 		try {
-			session = sessionFactory.getCurrentSession();
 			transaction = session.beginTransaction();
 			// get all the bids for the specified product
 			List<Bid> bids = this.getSordedBidsForProduct(bidDTO.getIdProduct());
@@ -60,6 +61,7 @@ public class ProductService extends AbstractService<Product> {
 				transaction.rollback();
 			}catch(RuntimeException rbe){
 				logger.error("Couldn't roll back transaction:"+rbe.getMessage());
+				throw new Exception("Couldn't roll back transaction:"+rbe.getMessage());
 			}
 		} catch (Exception e1) {
 			throw new Exception(e1.getMessage());

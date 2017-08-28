@@ -3,6 +3,7 @@ package com.onnisoft.validation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import com.onnisoft.validation.exception.ValidationException;
@@ -20,6 +21,7 @@ public class RegistrationValidator implements Validator<RegistrationRequestDTO> 
 	private Validator<AuthenticationRequestDTO> authenticationValidator;
 
 	@Autowired
+	@Qualifier("subscriberDAO")
 	private Dao<Subscriber> subscriberDao;
 
 	private static final String REGEX_PASSWORD_PATTERN = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,15}$";

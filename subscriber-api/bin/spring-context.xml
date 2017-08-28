@@ -42,8 +42,6 @@
                        value-ref="passwordChangeValidator"/>
                 <entry key="com.onnisoft.validation.ProfileCreationValidator"
                        value-ref="profileCreationValidator"/>
-                <entry key="com.onnisoft.validation.AddToFavoriteValidator"
-                	   value-ref="addToFavoriteValidator"/>
             </map>
         </property>
     </bean>

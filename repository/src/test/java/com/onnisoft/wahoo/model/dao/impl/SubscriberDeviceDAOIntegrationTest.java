@@ -20,13 +20,6 @@ import com.onnisoft.wahoo.model.document.SubscriberDevice;
 import com.onnisoft.wahoo.model.document.enums.SubscriberRoleEnum;
 import com.onnisoft.wahoo.model.document.enums.SubscriberStatusEnum;
 
-/**
- * Subscriber device integration test.
- *
- * @author alexandru.mos
- * @date Jun 9, 2016 - 5:47:29 PM
- *
- */
 @ContextConfiguration(locations = { "classpath:wahoo-data-test.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
 public class SubscriberDeviceDAOIntegrationTest {

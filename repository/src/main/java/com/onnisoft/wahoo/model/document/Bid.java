@@ -1,11 +1,15 @@
 package com.onnisoft.wahoo.model.document;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="bids")
@@ -14,10 +18,12 @@ public class Bid implements Serializable {
 	private static final long serialVersionUID = -4833645697287478866L;
 	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private long id;
 	private String idSubscriber;
 	private String idProduct;
 	private long bidValue;
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
 	public Bid() {

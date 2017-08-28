@@ -1,6 +1,8 @@
 package com.onnisoft.wahoo.api.resource;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,9 +48,11 @@ import io.swagger.annotations.ApiImplicitParams;
 public class ProductApi extends AbstractApi {
 	
 	@Autowired
+	@Qualifier("productDAO")
 	private Dao<Product> productDao;
 	
 	@Autowired
+	@Qualifier("commentDAO")
 	private Dao<Comment> commentDao;
 	
 	@Autowired
@@ -180,8 +185,7 @@ public class ProductApi extends AbstractApi {
 		}
 		
 		Comment comment = this.commentDao.create(new Comment.Builder().content(content).subscriber(subscriber).toCreate().build());
-
-		boolean updated = this.productDao.update(new Product.Builder().id(productId).comments(Collections.singletonList(comment)).build());
+		boolean updated = this.productDao.update(new Product.Builder().id(productId).comments(Arrays.asList(comment)).build());
 		if(!updated){
 			logger.warn("The product couldn't be updated!");
 			return GenericResponseDTO.createFailed("The product couldn't be updated!");
@@ -273,5 +277,39 @@ public class ProductApi extends AbstractApi {
 		}
 		
 		return GenericResponseDTO.createSuccess(bidList.get(0));
+	}
+	
+	@GET
+	@Path("/bids/product/id/{productId}")
+	@Timed
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiImplicitParams({ @ApiImplicitParam(name = HEADER_SECURITY_TOKEN, value = "Json Web Token", dataType = "string", paramType = "header", required = false),
+		@ApiImplicitParam(name = HEADER_SECURITY_TRUSTED_USERNAME, value = "Trusted username", dataType = "string", paramType = "header", required = false),
+		@ApiImplicitParam(name = HEADER_SECURITY_TRUSTED_SECRET, value = "Trusted secret", dataType = "string", paramType = "header", required = false) })
+	public @ResponseBody GenericResponseDTO<List<Bid>> getBidsByProductById(@Context HttpServletRequest headers, @PathParam("productId")String productId) {
+		Subscriber subscriber = this.retrieveUserFromToken(headers);
+		
+		List<Bid> bids = new LinkedList<>();
+		
+		if (subscriber == null) {
+			logger.warn("The subscriber couldn't be retrieved!");
+			return GenericResponseDTO.createFailed("The subscriber couldn't be retrieved!");
+		}
+		
+		Product product = this.productDao.retrieveById(productId);
+		
+		if(product == null){
+			logger.warn("There is no product with id:"+productId);
+			return GenericResponseDTO.createFailed("There is no product with id:"+productId);
+		}
+		
+		bids = bidDao.findByProps(new Bid.Builder().idProduct(productId).build());
+		
+		if(CollectionUtils.isEmpty(bids)) {
+			logger.warn("There are no bids for the product with the id:"+productId);
+			return GenericResponseDTO.createFailed("There are no bids for the product with the id:"+productId);
+		}
+		
+		return GenericResponseDTO.createSuccess(bids);
 	}
 }

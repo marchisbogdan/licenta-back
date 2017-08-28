@@ -11,13 +11,6 @@ import org.springframework.util.StringUtils;
 import com.onnisoft.wahoo.model.dao.AbstractDao;
 import com.onnisoft.wahoo.model.document.SubscriberDevice;
 
-/**
- * Implements CRUD operations for Competition document.
- *
- * @author alexandru.mos
- * @date Jun 9, 2016 - 5:09:47 PM
- *
- */
 @Repository
 public final class SubscriberDeviceDAO extends AbstractDao<SubscriberDevice> {
 
